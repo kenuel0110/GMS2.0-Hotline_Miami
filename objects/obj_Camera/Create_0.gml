@@ -1,0 +1,1 @@
+target = obj_Player_PCIABody;			//переменная цели

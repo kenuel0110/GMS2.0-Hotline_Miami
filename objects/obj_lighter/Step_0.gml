@@ -1,0 +1,1 @@
+image_blend = make_color_hsv(obj_background.hue + 25, 95, 85);
