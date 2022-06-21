@@ -78,6 +78,24 @@ if(_animation == true){
 			_animation = false;
 		}
 	break;
+	
+	case sprPCIALAttackKalashnikov:
+	//когда анимация заканчиваеться меняться на нужный и меняет ключ
+		if (image_index >= 1)
+		{
+			weapon_sprite = sprPCIALWalkKalashnikov;		
+			_animation = false;
+		}
+	break;
+	
+	case sprPCIALAttackShotgun:
+	//когда анимация заканчиваеться меняться на нужный и меняет ключ
+		if (image_index >= 1)
+		{
+			weapon_sprite = sprPCIALWalkShotgun;		
+			_animation = false;
+		}
+	break;
 	}
 }
 
@@ -143,10 +161,11 @@ if (mouse_check_button(mb_left) and ammoPlayer > 0)
 {
 	if (shoot_Timer <= 0)
 	{
-	_animation = true;
 		switch(weapon)
 		{
 			case "magnum":	//магнум
+			
+			_animation = true;
 			
 			shotX = x + lengthdir_x(10, image_angle - 20); //скос вперёд и угол от центра в примерную сторону дула
 			shotY = y + lengthdir_y(10, image_angle - 20); //скос вперёд и угол от центра в примерную сторону дула
@@ -160,9 +179,56 @@ if (mouse_check_button(mb_left) and ammoPlayer > 0)
 			shot.image_angle = image_angle + spreadWeapon;
 			shot.direction = image_angle + spreadWeapon;
 			shot.speed = obj_weaponData.shotSpeed_Magnum;
-			shot.friction = obj_weaponData.friction_Magnum;
+			//shot.friction = obj_weaponData.friction_Magnum;
 			shot.damage = obj_weaponData.damage_Magnum;
 			shoot_Timer = obj_weaponData.shoot_Timer_Magnum;
+			ammoPlayer--;
+
+			break;
+			
+			case "AK":	//АК
+			
+			_animation = true;
+			
+			shotX = x + lengthdir_x(8, image_angle - 10); //скос вперёд и угол от центра в примерную сторону дула
+			shotY = y + lengthdir_y(8, image_angle - 10); //скос вперёд и угол от центра в примерную сторону дула
+		
+			spreadWeapon = random_range(- obj_weaponData.spread_AK, obj_weaponData.spread_AK);
+			
+			var shot = instance_create_layer(shotX,shotY,"Instances_1",obj_shot); //создание пули	
+			
+			weapon_sprite = sprPCIALAttackKalashnikov;
+			
+			shot.image_angle = image_angle + spreadWeapon;
+			shot.direction = image_angle + spreadWeapon;
+			shot.speed = obj_weaponData.shotSpeed_AK;
+			shot.damage = obj_weaponData.damage_AK;
+			shoot_Timer = obj_weaponData.shoot_Timer_AK;
+			ammoPlayer--;
+
+			break;
+			
+			case "shotgun":	//Дробовик
+			
+			_animation = true;
+			
+			shotX = x + lengthdir_x(8, image_angle - 10); //скос вперёд и угол от центра в примерную сторону дула
+			shotY = y + lengthdir_y(8, image_angle - 10); //скос вперёд и угол от центра в примерную сторону дула
+		
+			spreadWeapon = random_range(- obj_weaponData.spread_Shotgun, obj_weaponData.spread_Shotgun);
+			
+			for (var i = 0; i < 6; i++)
+			{
+				var shot = instance_create_layer(shotX,shotY,"Instances_1",obj_shot); //создание пули	
+					shot.image_angle = image_angle + spreadWeapon;
+					shot.direction = image_angle + random_range(- obj_weaponData.spread_Shotgun, obj_weaponData.spread_Shotgun);
+					shot.speed = obj_weaponData.shotSpeed_Shotgun;
+					shot.damage = obj_weaponData.damage_Shotgun;
+				
+			}
+			
+			shoot_Timer = obj_weaponData.shoot_Timer_Shotgun;
+			weapon_sprite = sprPCIALAttackShotgun;
 			ammoPlayer--;
 
 			break;
